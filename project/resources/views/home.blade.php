@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+
+<img style="background-image" src='/images/is.jpg'>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+            <a href="{{ 'student'}}">student</a>
+            
+                <div class="panel-heading">Comment section</div>
                  
                 <div class="panel-body">
                     @if (session('status'))
