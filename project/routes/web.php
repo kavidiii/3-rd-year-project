@@ -26,4 +26,6 @@ Route::resource('/replies','RepliesController');
 Route::post('/replies/ajaxDelete','RepliesController@ajaxDelete');
 Route::resource('/student','StudentController');
 Route::resource('/contacts', 'ContactController');
-Route::resource('/admin', 'AdminController');
+Route::resource('/admin', 'dashController');
+Route::post('edit/{user_id}','ContactController@edit');
+ 

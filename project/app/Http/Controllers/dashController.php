@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Contact;
 use DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-class ContactController extends Controller
+use App\Http\Controllers\ContactController;
+class dashController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,13 +15,15 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
         
-         
-        //
-    }
+        $contacts = Contact::all();
 
-    /**
+        return view('RegisterStudent', compact('contacts'));
+        // $contacts=DB::select('select * from contacts') ;
+        // return view('RegisterStudent',['contacts'=>$contacts]);
+         //
+    }
+/**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -80,13 +83,9 @@ class ContactController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($user_id)
-    { 
-         
-        $contact =DB::table('contacts')->where ('user_id','=',$user_id);
-        return view('edit', compact('contact'));     
-        // $contact = Contact::findOrFail($user_id);
-        // return view('edit', compact('contact'));   
-            
+    {$contact = Contact::find($user_id);
+        return view('edit', compact('contact'));  
+        //
     }
 
     /**
@@ -103,7 +102,7 @@ class ContactController extends Controller
             'last_name'=>'required',
             'NIC'=>'required'
         ]);
-             $contact = Contact::find($user_id);
+        $contact = Contact::find($user_id);
             $contact->first_name = $request->get('first_name');
             $contact->last_name =$request->get('last_name');
             $contact->email = $request->get('email');  
@@ -124,15 +123,16 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return \Illuminate\Http\Response
      */
     public function destroy($user_id)
     {
-        // $contact = Contact::find($user_id);
-        // $contact->delete();
-        DB::table('contacts')->where ('user_id','=',$user_id)->delete();
+        $contact = Contact::find($user_id);
+        $contact->delete();
 
         return redirect('/admin')->with('success', 'Contact deleted!');  //
     }
 }
+
+     
