@@ -43,24 +43,31 @@ class ContactController extends Controller
             'last_name'=>'required',
             'NIC'=>'required'
         ]);
-        if (Auth::check()) {
-        $contact = new Contact([
-            'user_id'=> Auth::user()->id,
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'email' => Auth::user()->email, 
-            'date_of_birth'=> $request->get('date_of_birth'),
-            'age'=> $request->get('age'),
-            'phoneno' => $request->get('phoneno'),
-            'address' => $request->get('address'),
-            'NIC' => $request->get('NIC'),
-            'gender'=> $request->get('gender'),
-            'freeDay'=> $request->get('freeDay'),
-            'license'=> $request->get('license')
-        ]);
-        $contact->save();
-        return redirect('/contacts')->with('success', 'Contact saved!');  //
-    }}
+        $user = auth()->user();
+         
+        $image = $request->file('image');
+
+        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images'), $new_name);
+        $form_data = array(
+            'user_id'    => $user->id,
+            'first_name'       =>   $request->first_name,
+            'last_name'        =>   $request->last_name,
+             'email'            =>   $user->email,
+            'date_of_birth'    =>   $request->date_of_birth,
+            'age'     =>   $request->age,
+            'phoneno'   =>   $request->phoneno,
+            'address'    =>   $request->address,
+            'NIC'   =>   $request->NIC,
+            'gender'    =>   $request->gender,
+            'freeDay'  =>   $request->freeDay,
+            'license'   =>   $request->license,
+            'image'            =>   $new_name
+        );
+        Contact::create($form_data);
+        return redirect('/contacts')->with('success', 'Contact saved!');
+    
+     }
 
     /**
      * Display the specified resource.
@@ -82,7 +89,7 @@ class ContactController extends Controller
     public function edit($user_id)
     { 
          
-        $contact =DB::table('contacts')->where ('user_id','=',$user_id);
+        $contact =DB::table('contacts')->where ('user_id','=',$user_id)->get()->first();
         return view('edit', compact('contact'));     
         // $contact = Contact::findOrFail($user_id);
         // return view('edit', compact('contact'));   
@@ -103,7 +110,7 @@ class ContactController extends Controller
             'last_name'=>'required',
             'NIC'=>'required'
         ]);
-             $contact = Contact::find($user_id);
+             $contact = DB::table('contacts')->where ('user_id','=',$user_id)->get()->first();
             $contact->first_name = $request->get('first_name');
             $contact->last_name =$request->get('last_name');
             $contact->email = $request->get('email');  

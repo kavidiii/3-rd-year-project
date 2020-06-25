@@ -14,8 +14,9 @@
         </ul>
       </div><br />
     @endif
-      <form method="post" action="{{ route('contacts.store') }}">
+      <form method="post" action="{{ route('contacts.store') }}" enctype="multipart/form-data">
           @csrf
+          {{ csrf_field() }}
           <div class="form-group">    
               <label for="first_name">First Name:</label>
               <input type="text" class="form-control" name="first_name"/>
@@ -57,7 +58,16 @@
           <div class="form-group">
               <label for="license">License:</label>
               <input type="text" class="form-control" name="license"/>
-          </div>                        
+          </div> 
+          <label> Image </label> 
+          <div class="form-group row">
+               
+
+                 
+                    <input type="file" class="form-control" name="image"  >
+                 
+                    </div> 
+                                       
           <button type="submit" class="btn btn-primary-outline">Add contact</button>
       </form>
   </div>

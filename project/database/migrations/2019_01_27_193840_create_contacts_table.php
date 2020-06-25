@@ -26,7 +26,8 @@ class CreateContactsTable extends Migration
             $table->string('NIC'); 
             $table->string('gender'); 
             $table->string('freeDay');
-            $table->string('license');           
+            $table->string('license');
+            $table->mediumText('image')->nullable();          
         });
     }
 

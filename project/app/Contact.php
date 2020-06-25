@@ -18,6 +18,7 @@ class Contact extends Model
         'NIC',
         'gender',
         'freeDay',
-        'license'
+        'license',
+        'image'
     ];
 }
