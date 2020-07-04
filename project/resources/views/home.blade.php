@@ -1,8 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+<div class="jumbotron text-center">
+ <br />
+ @if($data!=null)
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+ <img src="{{ URL::to('/') }}/images/{{ $data->image }}"  class="w3-circle" alt="Norway" style="width:50%" />
+ <h4><b>
+ User_ID - {{$data->user_id}}</br>
+ Name - {{ $data->first_name }} {{ $data->last_name }}
+ </br></br>
+ <a href="{{ url('edit') }}" class="btn btn-primary">Edit</a>
+   </b></h4>
+   
+ @else
+ <img style="background-image" src='/images/is.jpg'>
+    <div class="panel-heading"><h4>You are unregistered student </br>
+    If you want to register our system as a student<h4></div>
+    <a href="{{ url('student') }}" class="btn btn-primary">REGISTER</a>
+  @endif
+</div>
+</div>
+</div>
+</div>
+</div>
 
-<img style="background-image" src='/images/is.jpg'>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

@@ -20,28 +20,16 @@ class ContactController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('student');   //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
+     
+    
     public function store(Request $request)
     {
         $request->validate([
             'first_name'=>'required',
             'last_name'=>'required',
-            'NIC'=>'required'
+            'NIC'=>'required',
+            'image'=> 'required'
         ]);
         $user = auth()->user();
          
@@ -65,27 +53,13 @@ class ContactController extends Controller
             'image'            =>   $new_name
         );
         Contact::create($form_data);
-        return redirect('/contacts')->with('success', 'Contact saved!');
+        return redirect('home')->with('success', 'Contact saved!');
     
      }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($user_id)
-    {
-        //
-    }
+    
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function edit($user_id)
     { 
          
@@ -96,44 +70,43 @@ class ContactController extends Controller
             
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $user_id)
+     
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'first_name'=>'required',
-            'last_name'=>'required',
-            'NIC'=>'required'
-        ]);
-             $contact = DB::table('contacts')->where ('user_id','=',$user_id)->get()->first();
-            $contact->first_name = $request->get('first_name');
-            $contact->last_name =$request->get('last_name');
-            $contact->email = $request->get('email');  
-            $contact->date_of_birth= $request->get('date_of_birth');
-            $contact->age= $request->get('age');
-            $contact->phoneno = $request->get('phoneno');
-            $contact->address = $request->get('address');
-            $contact->NIC = $request->get('NIC');
-            $contact->gender= $request->get('gender');
-            $contact->freeDay= $request->get('freeDay');
-            $contact->license= $request->get('license');
-         
-        $contact->save();
-        return redirect('/admin')->with('success', 'Contact updated !');  //  //
-      //
+        $image_name = $request->hidden_image;
+        $image = $request->file('image');
+        if($image != '')
+        {
+            $request->validate([
+                'first_name'    =>  'required',
+                'last_name'     =>  'required',
+                'image'         =>  'image|max:2048'
+            ]);
+
+            $image_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $image_name);
+        }
+        else
+        {
+            $request->validate([
+                'first_name'    =>  'required',
+                'last_name'     =>  'required',
+                'image'         =>  'required'
+            ]);
+        }
+
+        $form_data = array(
+            'first_name'       =>   $request->first_name,
+            'last_name'        =>   $request->last_name,
+            'image'            =>   $image_name
+        );
+  
+        Contact::whereUser_id($id)->update($form_data);
+
+        return redirect('home')->with('success', 'Data is successfully updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($user_id)
     {
         // $contact = Contact::find($user_id);

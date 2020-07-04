@@ -35,9 +35,7 @@
             <td>{{$contact->gender }}</td>
             <td>{{$contact->freeDay }}</td>
             <td>{{$contact->license }}</td>
-            <td>
-                <a href="{{ route('contacts.edit', $contact->user_id)}}" class="btn btn-primary">Edit</a>
-            </td>
+            
             <td>
                 <form action="{{ route('contacts.destroy', $contact->user_id)}}" method="post">
                   @csrf

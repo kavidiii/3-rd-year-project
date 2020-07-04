@@ -1,63 +1,63 @@
-@extends('base') 
+@extends('layouts.app')
+@extends('base')
 @section('content')
 <div class="row">
  <div class="col-sm-8 offset-sm-2">
-    <h1 class="display-3">Add a contact</h1>
-  
-     
-    
-      <form method="post" action="{{route('contacts.update',$contact->user_id)}}">
-      
-          @method('PATCH') 
-          @csrf
-          <div class="form-group">    
-              <label for="first_name">First Name:</label>
-              <input type="text" class="form-control" name="first_name" />
-          </div>
+    <h1 class="center"> <b>Edit your profile data</b></h1>
+  <div>
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+      </div><br />
+    @endif
+     <form method="post" action="{{ route('contacts.update', $data->user_id) }}" enctype="multipart/form-data">
+                @csrf
+                @method('PATCH')
+      <div class="form-group">
+       <label class="col-md-4 text-right">Enter First Name</label>
+       <div class="col-md-8">
+        <input type="text" name="first_name" value="{{ $data->first_name }}" class="form-control input-lg" />
+       </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <div class="form-group">
+       <label class="col-md-4 text-right">Enter Last Name</label>
+       <div class="col-md-8">
+        <input type="text" name="last_name" value="{{ $data->last_name }}" class="form-control input-lg" />
+       </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <div class="form-group">
+       <label class="col-md-4 text-right">Select Profile Image</label>
+       <div class="col-md-8">
+        <input type="file" name="image" />
+              <img src="{{ URL::to('/') }}/images/{{ $data->image }}" class="img-thumbnail" width="100" />
+                        <input type="hidden" name="hidden_image" value="{{ $data->image }}" />
+       </div>
+      </div>
+      <br /><br /><br />
+      <div class="form-group text-center">
+       <input type="submit" name="edit" class="btn btn-primary input-lg" value="Edit" />
+      </div>
+     </form>
 
-          <div class="form-group">
-              <label for="last_name">Last Name:</label>
-              <input type="text" class="form-control" name="last_name" />
-          </div>
-          <div class="form-group">
-              <label for="last_name">Email:</label>
-              <input type="text" class="form-control" name="email" />
-          </div>
-          <div class="form-group">
-              <label for="date_of_birth">Date_of_birth:</label>
-              <input type="date" class="form-control" name="date_of_birth" />
-          </div>
-          <div class="form-group">
-              <label for="age">Age:</label>
-              <input type="number" class="form-control" name="age" />
-          </div>
-          <div class="form-group">
-              <label for="phone No:">Phone No:</label>
-              <input type="number" class="form-control" name="phoneno" />
-          </div>
-          <div class="form-group">
-              <label for="Address">Address:</label>
-              <input type="text" class="form-control" name="address"  />
-          </div>
-          <div class="form-group">
-              <label for="NIC">NIC:</label>
-              <input type="text" class="form-control" name="NIC" />
-          </div>
-          <div class="form-group">
-              <label for="gender">Gender:</label>
-              <input type="text" class="form-control" name="gender" />
-          </div>
-          <div class="form-group">
-              <label for="free days">Free Days:</label>
-              <input type="text" class="form-control" name="freeDay" />
-          </div> 
-          <div class="form-group">
-              <label for="license">License:</label>
-              <input type="text" class="form-control" name="license" />
-          </div>                        
-          <button type="submit" class="btn btn-primary-outline">Add contact</button>
-      </form>
-  
+     </div>
 </div>
+</div>
+<div class="col-sm-12">
+
+  @if(session()->get('success'))
+    <div class="alert alert-success">
+      {{ session()->get('success') }}  
+    </div>
+  @endif
 </div>
 @endsection
