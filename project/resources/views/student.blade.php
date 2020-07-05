@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @extends('base')
 @section('content')
+ 
+
 <div class="row">
  <div class="col-sm-8 offset-sm-2">
-    <h1 class="display-3">Add a contact</h1>
+    <h1 class="display-3"><span style="color:#00008B;text-align:center;"><b>Register as a student</b></span></h1>
+    
   <div>
     @if ($errors->any())
       <div class="alert alert-danger">
@@ -17,7 +20,8 @@
       <form method="post" action="{{ route('contacts.store') }}" enctype="multipart/form-data">
           @csrf
           {{ csrf_field() }}
-          <div class="form-group">    
+          <span style="color:#00008B"><b>
+          <div class="form-group" >    
               <label for="first_name">First Name:</label>
               <input type="text" class="form-control" name="first_name"/>
           </div>
@@ -60,7 +64,7 @@
               <input type="text" class="form-control" name="license"/>
           </div> 
           <label> Image </label> 
-          <div class="form-group row">
+          <div class="form-group">
                
 
                  
@@ -68,13 +72,13 @@
                  
                     </div> 
                                        
-          <button type="submit" class="btn btn-primary-outline">Add contact</button>
+          <button type="submit" class="btn btn-primary"> Register</button>
       </form>
   </div>
 </div>
 </div>
 <div class="col-sm-12">
-
+</b></span>
   @if(session()->get('success'))
     <div class="alert alert-success">
       {{ session()->get('success') }}  

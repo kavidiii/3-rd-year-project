@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" >
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -11,17 +11,21 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
  <img src="{{ URL::to('/') }}/images/{{ $data->image }}"  class="w3-circle" alt="Norway" style="width:50%" />
- <h4><b>
+ <h4><b><span style="color:#00008B;text-align:center;">
  User_ID - {{$data->user_id}}</br>
- Name - {{ $data->first_name }} {{ $data->last_name }}
+ Name - {{ $data->first_name }} {{ $data->last_name }}</br>
+ Free Days - {{$data->freeDay}}</br>
+ License - {{$data->license}}
  </br></br>
  <a href="{{ url('edit') }}" class="btn btn-primary">Edit</a>
-   </b></h4>
+  </span> </b></h4>
    
  @else
- <img style="background-image" src='/images/is.jpg'>
-    <div class="panel-heading"><h4>You are unregistered student </br>
-    If you want to register our system as a student<h4></div>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+ <img style="background-image" src='/images/is.jpg'class="w3-circle" alt="Norway" style="width:50%" />
+    <div class="panel-heading"><h4><span style="color:#00008B;text-align:center;"><strong>You are unregistered student . </br>
+    If you want to register our system as a student</strong></span><h4></div>
     <a href="{{ url('student') }}" class="btn btn-primary">REGISTER</a>
   @endif
 </div>
@@ -33,10 +37,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-            <a href="{{ 'student'}}">student</a>
+            <div class="panel panel-danger">
             
-                <div class="panel-heading">Comment section</div>
+            
+                <div class="panel-heading"><h4><b><span style="color:#FF0000">Comment section</b><h4></span></div>
                  
                 <div class="panel-body">
                     @if (session('status'))
@@ -47,7 +51,7 @@
                     <form id="comment-form" method="post" action="{{ route('comments.store') }}" >
                         {{ csrf_field() }}
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}" >
-                        <div class="row" style="padding: 10px;">
+                        <div class="row" style="padding: 10px;" class="panel panel-danger">
                             <div class="form-group">
                                 <textarea class="form-control" name="comment" placeholder="Write something from your heart..!"></textarea>
                             </div>
@@ -66,18 +70,18 @@
 
     <div class="row">
          <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Comments</div>
+            <div class="panel panel-danger">
+                <div class="panel-heading"><h4><b><span style="color:#FF0000">Comments</b><h4></span></div>
 
                 <div class="panel-body comment-container" >
-                    
+                <span style="color:#000000 ">   
                     @foreach($comments as $comment)
                         <div class="well">
                             <i><b> {{ $comment->name }} </b></i>&nbsp;&nbsp;
                             <span> {{ $comment->comment }} </span>
-                            <div style="margin-left:10px;">
-                                <a style="cursor: pointer;" cid="{{ $comment->id }}" name_a="{{ Auth::user()->name }}" token="{{ csrf_token() }}" class="reply">Reply</a>&nbsp;
-                                <a style="cursor: pointer;"  class="delete-comment" token="{{ csrf_token() }}" comment-did="{{ $comment->id }}" >Delete</a>
+                            <div style="margin-left:10px;" >
+                                <a style="cursor: pointer;" cid="{{ $comment->id }}" name_a="{{ Auth::user()->name }}" token="{{ csrf_token() }}" class="reply"><button   class="btn btn-primary">Reply</button></a>&nbsp;
+                               <a style="cursor: pointer;"  class="delete-comment " token="{{ csrf_token() }}" comment-did="{{ $comment->id }}" ><button   class="btn btn-danger">Delete</button></a>
                                 <div class="reply-form">
                                     
                                     <!-- Dynamic Reply form -->
@@ -89,7 +93,8 @@
                                             <i><b> {{ $rep->name }} </b></i>&nbsp;&nbsp;
                                             <span> {{ $rep->reply }} </span>
                                             <div style="margin-left:10px;">
-                                                <a rname="{{ Auth::user()->name }}" rid="{{ $comment->id }}" style="cursor: pointer;" class="reply-to-reply" token="{{ csrf_token() }}">Reply</a>&nbsp;<a did="{{ $rep->id }}" class="delete-reply" token="{{ csrf_token() }}" >Delete</a>
+                                               <a rname="{{ Auth::user()->name }}" rid="{{ $comment->id }}" style="cursor: pointer;" class="reply-to-reply " token="{{ csrf_token() }}"><button   class="btn btn-primary">Reply</button></a>&nbsp;
+                                            <a did="{{ $rep->id }}" class="delete-reply " token="{{ csrf_token() }}" ><button   class="btn btn-danger">Delete</button></a>
                                             </div>
                                             <div class="reply-to-reply-form">
                                     
@@ -100,7 +105,7 @@
                                         </div>
                                     @endif 
                                 @endforeach
-                                
+                               </span> 
                             </div>
                         </div>
                     @endforeach

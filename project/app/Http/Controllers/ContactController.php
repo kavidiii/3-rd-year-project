@@ -98,8 +98,10 @@ class ContactController extends Controller
         $form_data = array(
             'first_name'       =>   $request->first_name,
             'last_name'        =>   $request->last_name,
-            'image'            =>   $image_name
-        );
+            'image'            =>   $image_name,
+            'freeDay' =>  $request->freeDay,
+            'license'   => $request->license 
+        ); 
   
         Contact::whereUser_id($id)->update($form_data);
 
