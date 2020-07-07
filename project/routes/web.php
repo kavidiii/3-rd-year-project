@@ -29,4 +29,5 @@ Route::resource('/student','StudentController');
 Route::resource('/contacts', 'ContactController');
 Route::resource('/admin', 'dashController');
 Route::post('/{user_id}/edit','ContactController@edit');
+Route::get('/chart', 'ChartController@index');
  
